@@ -1,9 +1,10 @@
 import React from 'react';
+import List from './list';
 
 const Bookables = () => {
   return (
     <main className="bookables-page">
-      <p>Bookables!</p>
+      <List />
     </main>
   );
 };
