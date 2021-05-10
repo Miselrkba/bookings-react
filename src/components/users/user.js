@@ -1,9 +1,11 @@
 import React from 'react';
 
+import UsersList from './userList';
+
 const User = () => {
   return (
     <main className="users-page">
-      <p>Users!</p>
+      <UsersList />
     </main>
   );
 };

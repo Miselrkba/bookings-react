@@ -1,9 +1,13 @@
 import React from 'react';
 
+import { users } from '../../static.json';
+
 const Picker = () => {
   return (
     <select>
-      <option>Users</option>
+      {users.map((u) => (
+        <option key={u.id}>{u.name}</option>
+      ))}
     </select>
   );
 };
