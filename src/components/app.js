@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-import './app.scss';
+import './app.css';
 
 import { FaCalendarAlt, FaDoorOpen, FaUsers } from 'react-icons/fa';
 
