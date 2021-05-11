@@ -13,6 +13,11 @@ const BookablesList = () => {
 
   const [hasDetails, setHasDetails] = useState(false);
 
+  const changeGroup = (e) => {
+    setGroup(e.target.value);
+    setBookableIndex(0);
+  };
+
   const nextBookable = () => {
     setBookableIndex((i) => (i + 1) % bookablesInGroup.length);
   };
@@ -20,7 +25,7 @@ const BookablesList = () => {
   return (
     <>
       <div>
-        <select value={group} onChange={(e) => setGroup(e.target.value)}>
+        <select value={group} onChange={changeGroup}>
           {groups.map((g) => (
             <option value={g} key={g}>
               {g}

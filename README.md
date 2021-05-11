@@ -1,1 +1,3 @@
-"# bookings-react" 
+# bookings-react
+
+app for booking rooms
