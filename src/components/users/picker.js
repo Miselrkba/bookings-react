@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { users } from '../../static.json';
+import Spinner from '../ui/spinner';
 
 const Picker = () => {
+  const [users, setUsers] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/users')
+      .then((resp) => resp.json())
+      .then((data) => setUsers(data));
+  }, []);
+
+  if (users === null) {
+    return <Spinner />;
+  }
+
   return (
     <select>
       {users.map((u) => (
