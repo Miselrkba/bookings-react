@@ -1,87 +1,52 @@
-import React, { useEffect, useReducer, useRef } from 'react';
-
-import { sessions, days } from '../../static.json';
+import { useEffect, useRef, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
-
 import Spinner from '../ui/spinner';
-import reducer from './reducer';
-
 import getData from '../../utils/api';
 
-const initialState = {
-  group: 'Rooms',
-  bookableIndex: 0,
-  hasDetails: true,
-  bookables: [],
-  isLoading: true,
-  error: false,
-};
+export default function BookablesList({ bookable, setBookable }) {
+  const [bookables, setBookables] = useState([]);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-const BookablesList = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const timerRef = useRef(null);
-  const nextButtonRef = useRef();
-
-  const { group, bookableIndex, bookables } = state;
-  const { hasDetails, isLoading, error } = state;
+  const group = bookable?.group;
 
   const bookablesInGroup = bookables.filter((b) => b.group === group);
-  const bookable = bookablesInGroup[bookableIndex];
   const groups = [...new Set(bookables.map((b) => b.group))];
 
-  useEffect(() => {
-    dispatch({ type: 'FETCH_BOOKABLES_REQUEST' });
+  const nextButtonRef = useRef();
 
+  useEffect(() => {
     getData('http://localhost:3001/bookables')
-      .then((bookables) =>
-        dispatch({
-          type: 'FETCH_BOOKABLES_SUCCESS',
-          payload: bookables,
-        })
-      )
-      .catch((error) =>
-        dispatch({
-          type: 'FETCH_BOOKABLES_ERROR',
-          payload: error,
-        })
-      );
-  }, []);
+      .then((bookables) => {
+        setBookable(bookables[0]);
+        setBookables(bookables);
+        setIsLoading(false);
+      })
 
-  useEffect(() => {
-    timerRef.current = setInterval(() => {
-      dispatch({ type: 'NEXT_BOOKABLE' });
-    }, 3000);
-    return stopPresentation;
-  }, []);
+      .catch((error) => {
+        setError(error);
+        setIsLoading(false);
+      });
+  }, [setBookable]);
 
-  const stopPresentation = () => {
-    clearInterval(timerRef.current);
-  };
+  function changeGroup(e) {
+    const bookablesInSelectedGroup = bookables.filter(
+      (b) => b.group === e.target.value
+    );
+    setBookable(bookablesInSelectedGroup[0]);
+  }
 
-  const changeGroup = (e) => {
-    dispatch({
-      type: 'SET_GROUP',
-      payload: e.target.value,
-    });
-  };
-  const changeBookable = (selectedIndex) => {
-    dispatch({
-      type: 'SET_BOOKABLE',
-      payload: selectedIndex,
-    });
+  function changeBookable(selectedBookable) {
+    setBookable(selectedBookable);
     nextButtonRef.current.focus();
-  };
+  }
 
-  const nextBookable = () => {
-    dispatch({ type: 'NEXT_BOOKABLE' });
-  };
-
-  const toggleDetails = () => {
-    dispatch({
-      type: 'TOGGLE_HAS_DETAILS',
-    });
-  };
+  function nextBookable() {
+    const i = bookablesInGroup.indexOf(bookable);
+    const nextIndex = (i + 1) % bookablesInGroup.length;
+    const nextBookable = bookablesInGroup[nextIndex];
+    setBookable(nextBookable);
+  }
 
   if (error) {
     return <p>{error.message}</p>;
@@ -96,81 +61,35 @@ const BookablesList = () => {
   }
 
   return (
-    <>
-      <div>
-        <select value={group} onChange={changeGroup}>
-          {groups.map((g) => (
-            <option value={g} key={g}>
-              {g}
-            </option>
-          ))}
-        </select>
+    <div>
+      <select value={group} onChange={changeGroup}>
+        {groups.map((g) => (
+          <option value={g} key={g}>
+            {g}
+          </option>
+        ))}
+      </select>
 
-        <ul className="bookables items-list-nav">
-          {bookablesInGroup.map((b, i) => (
-            <li key={b.id} className={i === bookableIndex ? 'selected' : null}>
-              <button className="btn" onClick={() => changeBookable(i)}>
-                {b.title}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <p>
-          <button
-            className="btn"
-            onClick={nextBookable}
-            ref={nextButtonRef}
-            autoFocus
-          >
-            <FaArrowRight />
-            <span>Next</span>
-          </button>
-        </p>
-      </div>
-      {bookable && (
-        <div className="bookable-details">
-          <div className="item">
-            <div className="item-header">
-              <h2>{bookable.title}</h2>
-              <span className="controls">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={hasDetails}
-                    onChange={toggleDetails}
-                  />
-                  Show Details
-                </label>
-                <button className="btn" onClick={stopPresentation}>
-                  Stop
-                </button>
-              </span>
-            </div>
-
-            <p>{bookable.notes}</p>
-
-            {hasDetails && (
-              <div className="item-details">
-                <h3>Availability</h3>
-                <div className="bookable-availability">
-                  <ul>
-                    {bookable.days.sort().map((d) => (
-                      <li key={d}>{days[d]}</li>
-                    ))}
-                  </ul>
-                  <ul>
-                    {bookable.sessions.map((s) => (
-                      <li key={s}>{sessions[s]}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </>
+      <ul className="bookables items-list-nav">
+        {bookablesInGroup.map((b) => (
+          <li key={b.id} className={b.id === bookable.id ? 'selected' : null}>
+            <button className="btn" onClick={() => changeBookable(b)}>
+              {b.title}
+            </button>
+          </li>
+        ))}
+      </ul>
+      <p>
+        <button
+          className="btn"
+          onClick={nextBookable}
+          ref={nextButtonRef}
+          autoFocus
+        >
+          <FaArrowRight />
+          <span>Next</span>
+        </button>
+      </p>
+    </div>
   );
-};
-
-export default BookablesList;
+}

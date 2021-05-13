@@ -1,10 +1,12 @@
 import React from 'react';
-import BookablesList from './bookablesList';
+import BookablesView from './bookablesView';
+// import BookablesList from './bookablesList';
 
 const Bookables = () => {
   return (
     <main className="bookables-page">
-      <BookablesList />
+      {/* <BookablesList /> */}
+      <BookablesView />
     </main>
   );
 };
