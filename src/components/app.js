@@ -6,7 +6,7 @@ import './app.css';
 import { FaCalendarAlt, FaDoorOpen, FaUsers } from 'react-icons/fa';
 
 import Picker from './users/picker';
-import Bookings from './bookings/bookings';
+import BookingsPage from './bookings/bookingsPage';
 import Bookables from './bookables/bookables';
 import User from './users/user';
 
@@ -39,7 +39,7 @@ const App = () => {
         <Picker />
       </header>
       <Routes>
-        <Route path="/bookings" element={<Bookings />}></Route>
+        <Route path="/bookings" element={<BookingsPage />}></Route>
         <Route path="/bookables" element={<Bookables />}></Route>
         <Route path="/users" element={<User />}></Route>
       </Routes>
