@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 
 import { sessions, days } from '../../static.json';
 import { FaArrowRight } from 'react-icons/fa';
@@ -19,6 +19,8 @@ const initialState = {
 
 const BookablesList = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const timerRef = useRef(null);
 
   const { group, bookableIndex, bookables } = state;
   const { hasDetails, isLoading, error } = state;
@@ -44,6 +46,17 @@ const BookablesList = () => {
         })
       );
   }, []);
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      dispatch({ type: 'NEXT_BOOKABLE' });
+    }, 3000);
+    return stopPresentation;
+  }, []);
+
+  const stopPresentation = () => {
+    clearInterval(timerRef.current);
+  };
 
   const changeGroup = (e) => {
     dispatch({
@@ -121,6 +134,9 @@ const BookablesList = () => {
                   />
                   Show Details
                 </label>
+                <button className="btn" onClick={stopPresentation}>
+                  Stop
+                </button>
               </span>
             </div>
 
