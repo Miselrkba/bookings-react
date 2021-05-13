@@ -21,6 +21,7 @@ const BookablesList = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const timerRef = useRef(null);
+  const nextButtonRef = useRef();
 
   const { group, bookableIndex, bookables } = state;
   const { hasDetails, isLoading, error } = state;
@@ -69,6 +70,7 @@ const BookablesList = () => {
       type: 'SET_BOOKABLE',
       payload: selectedIndex,
     });
+    nextButtonRef.current.focus();
   };
 
   const nextBookable = () => {
@@ -114,7 +116,12 @@ const BookablesList = () => {
           ))}
         </ul>
         <p>
-          <button className="btn" onClick={nextBookable} autoFocus>
+          <button
+            className="btn"
+            onClick={nextBookable}
+            ref={nextButtonRef}
+            autoFocus
+          >
             <FaArrowRight />
             <span>Next</span>
           </button>
