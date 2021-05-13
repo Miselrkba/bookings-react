@@ -1,11 +1,23 @@
-import { useReducer } from 'react';
+import { useReducer, useRef } from 'react';
 import reducer from './weekReducer';
 import { getWeek } from '../../utils/date-wrangler';
-import { FaChevronLeft, FaCalendarDay, FaChevronRight } from 'react-icons/fa';
+import {
+  FaChevronLeft,
+  FaCalendarDay,
+  FaChevronRight,
+  FaCalendarCheck,
+} from 'react-icons/fa';
 
-const weekPicker = ({ date }) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+const WeekPicker = ({ date }) => {
   const [week, dispatch] = useReducer(reducer, date, getWeek);
+  const textboxRef = useRef();
+
+  const goToDate = () => {
+    dispatch({
+      type: 'SET_DATE',
+      payload: textboxRef.current.value,
+    });
+  };
 
   return (
     <div>
@@ -20,6 +32,20 @@ const weekPicker = ({ date }) => {
           <span>Today</span>
         </button>
 
+        <span>
+          <input
+            type="text"
+            ref={textboxRef}
+            placeholder="e.g. 2020-09-02"
+            defaultValue="2020-06-24"
+          />
+        </span>
+
+        <button className="go btn" onClick={goToDate}>
+          <FaCalendarCheck />
+          <span>Go</span>
+        </button>
+
         <button className="btn" onClick={() => dispatch({ type: 'NEXT_WEEK' })}>
           <span>Next</span>
           <FaChevronRight />
@@ -32,4 +58,4 @@ const weekPicker = ({ date }) => {
   );
 };
 
-export default weekPicker;
+export default WeekPicker;
