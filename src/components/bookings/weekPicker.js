@@ -1,4 +1,4 @@
-import { useReducer, useRef } from 'react';
+import { useReducer, useState } from 'react';
 import reducer from './weekReducer';
 import { getWeek } from '../../utils/date-wrangler';
 import {
@@ -10,12 +10,12 @@ import {
 
 const WeekPicker = ({ date }) => {
   const [week, dispatch] = useReducer(reducer, date, getWeek);
-  const textboxRef = useRef();
+  const [dateText, setDateText] = useState('2021-05-13');
 
   const goToDate = () => {
     dispatch({
       type: 'SET_DATE',
-      payload: textboxRef.current.value,
+      payload: dateText,
     });
   };
 
@@ -35,9 +35,9 @@ const WeekPicker = ({ date }) => {
         <span>
           <input
             type="text"
-            ref={textboxRef}
-            placeholder="e.g. 2020-09-02"
-            defaultValue="2020-06-24"
+            value={dateText}
+            onChange={(e) => setDateText(e.target.value)}
+            placeholder="e.g. 2021-10-01"
           />
         </span>
 
