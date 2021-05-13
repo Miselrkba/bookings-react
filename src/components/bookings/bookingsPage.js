@@ -1,17 +1,15 @@
-import Booking from './booking';
+import { useState } from 'react';
 
-export default function BookingDetails({ booking, bookable }) {
+import BookablesList from '../bookables/bookablesList';
+import Bookings from './bookings';
+
+export default function BookingsPage() {
+  const [bookable, setBookable] = useState(null);
+
   return (
-    <div className="booking-details">
-      <h2>Booking Details</h2>
-
-      {booking ? (
-        <Booking booking={booking} bookable={bookable} />
-      ) : (
-        <div className="booking-details-fields">
-          <p>Select a booking or a booking slot.</p>
-        </div>
-      )}
-    </div>
+    <main className="bookings-page">
+      <BookablesList bookable={bookable} setBookable={setBookable} />
+      <Bookings bookable={bookable} />
+    </main>
   );
 }

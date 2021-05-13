@@ -1,11 +1,11 @@
-export const addDays = (date, daysToAdd) => {
+export function addDays(date, daysToAdd) {
   const clone = new Date(date.getTime());
   clone.setDate(clone.getDate() + daysToAdd);
   return clone;
-};
+}
 
-export const getWeek = (forDate, daysOffSet = 0) => {
-  const date = addDays(forDate, daysOffSet);
+export function getWeek(forDate, daysOffset = 0) {
+  const date = addDays(forDate, daysOffset);
   const day = date.getDay();
 
   return {
@@ -13,4 +13,8 @@ export const getWeek = (forDate, daysOffSet = 0) => {
     start: addDays(date, -day),
     end: addDays(date, 6 - day),
   };
-};
+}
+
+export function shortISO(date) {
+  return date.toISOString().split('T')[0];
+}

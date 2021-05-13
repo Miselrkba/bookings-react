@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, Fragment } from 'react';
 import { getGrid, transformBookings } from './grid-builder';
 import { getBookings } from '../../utils/api';
-import Spinner from '../UI/Spinner';
+import Spinner from '../ui/spinner';
 
 export default function BookingsGrid({ week, bookable, booking, setBooking }) {
   const [bookings, setBookings] = useState(null);

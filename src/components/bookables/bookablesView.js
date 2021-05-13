@@ -1,7 +1,7 @@
 import { useState, Fragment, useCallback } from 'react';
 
-import BookablesList from './bookablesList';
 import BookableDetails from './bookableDetails';
+import BookablesList from './bookablesList';
 
 export default function BookablesView() {
   const [bookable, setBookable] = useState();
