@@ -5,10 +5,10 @@ import './app.css';
 
 import { FaCalendarAlt, FaDoorOpen, FaUsers } from 'react-icons/fa';
 
-import Picker from './users/picker';
+import Picker from './users/userPicker';
 import BookingsPage from './bookings/bookingsPage';
 import Bookables from './bookables/bookables';
-import User from './users/user';
+import User from './users/usersPage';
 import UsertContext from './users/userContext';
 
 const App = () => {

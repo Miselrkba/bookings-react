@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import Spinner from '../ui/spinner';
 
-const Picker = ({ user, setUser }) => {
+export default function UserPicker({ user, setUser }) {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
@@ -14,12 +13,12 @@ const Picker = ({ user, setUser }) => {
       });
   }, [setUser]);
 
-  const handleSelect = (e) => {
+  function handleSelect(e) {
     const selectedID = parseInt(e.target.value, 10);
     const selectedUser = users.find((u) => u.id === selectedID);
 
     setUser(selectedUser);
-  };
+  }
 
   if (users === null) {
     return <Spinner />;
@@ -34,6 +33,4 @@ const Picker = ({ user, setUser }) => {
       ))}
     </select>
   );
-};
-
-export default Picker;
+}
