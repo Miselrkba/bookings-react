@@ -9,12 +9,12 @@ import Picker from './users/userPicker';
 import BookingsPage from './bookings/bookingsPage';
 import Bookables from './bookables/bookables';
 import User from './users/usersPage';
-import UsertContext from './users/userContext';
+import { UserProvider } from './users/userContext';
 
 const App = () => {
   const [user, setUser] = useState();
   return (
-    <UsertContext.Provider value={user}>
+    <UserProvider>
       <Router>
         <header>
           <nav>
@@ -47,7 +47,7 @@ const App = () => {
           <Route path="/users" element={<User />}></Route>
         </Routes>
       </Router>
-    </UsertContext.Provider>
+    </UserProvider>
   );
 };
 
