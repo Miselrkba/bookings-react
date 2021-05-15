@@ -43,7 +43,7 @@ const App = () => {
         </header>
         <Routes>
           <Route path="/bookings" element={<BookingsPage />}></Route>
-          <Route path="/bookables" element={<Bookables />}></Route>
+          <Route path="/bookables/*" element={<Bookables />}></Route>
           <Route path="/users" element={<User />}></Route>
         </Routes>
       </Router>

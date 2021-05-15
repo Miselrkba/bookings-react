@@ -1,14 +1,24 @@
-import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+
 import BookablesView from './bookablesView';
-// import BookablesList from './bookablesList';
+import BookableEdit from './bookableEdit';
+import BookableNew from './bookableNew';
 
-const Bookables = () => {
+export default function BookablesPage() {
   return (
-    <main className="bookables-page">
-      {/* <BookablesList /> */}
-      <BookablesView />
-    </main>
+    <Routes>
+      <Route path="/:id">
+        <BookablesView />
+      </Route>
+      <Route path="/">
+        <BookablesView />
+      </Route>
+      <Route path="/:id/edit">
+        <BookableEdit />
+      </Route>
+      <Route path="/new">
+        <BookableNew />
+      </Route>
+    </Routes>
   );
-};
-
-export default Bookables;
+}
