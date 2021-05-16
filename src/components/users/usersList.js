@@ -1,30 +1,17 @@
-import { useState, useEffect } from 'react';
-import Spinner from '../ui/spinner';
+import { useQuery } from 'react-query';
 import getData from '../../utils/api';
+import Spinner from '../ui/spinner';
 
 export default function UsersList({ user, setUser }) {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [users, setUsers] = useState(null);
-
-  useEffect(() => {
+  const { data: users = [], status, error } = useQuery('users', () =>
     getData('http://localhost:3001/users')
-      .then((data) => {
-        // don't set user here - it's done in UsersPage
-        setUsers(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setIsLoading(false);
-      });
-  }, [setUser]);
+  );
 
-  if (error) {
+  if (status === 'error') {
     return <p>{error.message}</p>;
   }
 
-  if (isLoading) {
+  if (status === 'loading') {
     return (
       <p>
         <Spinner /> Loading users...
