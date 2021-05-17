@@ -1,24 +1,29 @@
-import { useState, useContext } from 'react';
+import { useState, Suspense } from 'react';
 import UsersList from './usersList';
 import UserDetails from './userDetails';
 
-import UserContext from './userContext'; // import the shared context
+import PageSpinner from '../ui/pageSpinner';
+
+import { useUser } from './userContext'; // import the shared context
 
 export default function UsersPage() {
-  const [user, setUser] = useState(null);
+  const [loggedInUser] = useUser();
+  const [selectedUser, setSelectedUser] = useState(null);
+  const user = selectedUser || loggedInUser;
 
-  // get the user from context
-  const loggedInUser = useContext(UserContext);
+  function switchUser(nextUser) {
+    setSelectedUser(nextUser);
+  }
 
-  // if no user has been selected in the users list,
-  // select the logged in user
-  const currentUser = user || loggedInUser;
-
-  // pass currentUser to children
-  return (
+  return user ? (
     <main className="users-page">
-      <UsersList user={currentUser} setUser={setUser} />
-      <UserDetails user={currentUser} />
+      <UsersList user={user} setUser={switchUser} />
+
+      <Suspense fallback={<PageSpinner />}>
+        <UserDetails userID={user.id} />
+      </Suspense>
     </main>
+  ) : (
+    <PageSpinner />
   );
 }
