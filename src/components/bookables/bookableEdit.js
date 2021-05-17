@@ -1,22 +1,34 @@
-import BookableForm from './bookableForm';
+import { useParams } from 'react-router-dom';
+import { useQueryClient, useQuery } from 'react-query';
+
 import useFormState from './useFormState';
+import getData from '../../utils/api';
+
+import BookableForm from './bookableForm';
+import PageSpinner from '../ui/pageSpinner';
 
 export default function BookableEdit() {
-  const status = 'success';
-  const error = { message: 'Error!' };
+  const { id } = useParams();
+  const queryClient = useQueryClient();
 
-  const formState = useFormState();
+  const { data, isLoading } = useQuery(
+    ['bookable', id],
+    () => getData(`http://localhost:3001/bookables/${id}`),
+    {
+      initialData: queryClient
+        .getQueryData('bookables')
+        ?.find((b) => b.id === parseInt(id, 10)),
+    }
+  );
+
+  const formState = useFormState(data);
 
   function handleDelete() {}
 
   function handleSubmit() {}
 
-  if (status === 'error') {
-    return <p>{error.message}</p>;
-  }
-
-  if (status === 'loading') {
-    return <p>Loading!!!</p>;
+  if (isLoading) {
+    return <PageSpinner />;
   }
 
   return (
