@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { days, sessions } from '../../static.json';
+import { FaEdit } from 'react-icons/fa';
 
-const BookableDetails = ({ bookable }) => {
+export default function BookableDetails({ bookable }) {
   const [hasDetails, setHasDetails] = useState(true);
 
-  const toggleDetails = () => {
+  function toggleDetails() {
     setHasDetails((has) => !has);
-  };
+  }
 
   return bookable ? (
     <div className="bookable-details item">
@@ -21,9 +23,19 @@ const BookableDetails = ({ bookable }) => {
             />
             Show Details
           </label>
+          <Link
+            to={`/bookables/${bookable.id}/edit`}
+            replace={true}
+            className="btn btn-header"
+          >
+            <FaEdit />
+            <span>Edit</span>
+          </Link>
         </span>
       </div>
+
       <p>{bookable.notes}</p>
+
       {hasDetails && (
         <div className="item-details">
           <h3>Availability</h3>
@@ -43,6 +55,4 @@ const BookableDetails = ({ bookable }) => {
       )}
     </div>
   ) : null;
-};
-
-export default BookableDetails;
+}

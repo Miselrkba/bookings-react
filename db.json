@@ -4,7 +4,7 @@
       "id": 1,
       "group": "Rooms",
       "title": "Meeting Room",
-      "notes": "The one with the big table and interactive screen. Seats 12. See Colin if you need the tea and coffee trolley.",
+      "notes": "The one with the big table and interactive screen. Seats 12. See Colin if you need the tea and coffee trolley.fdsfdsfdsfs",
       "sessions": [
         1,
         2,
@@ -121,6 +121,15 @@
       "group": "gfd",
       "notes": "gfdg",
       "id": 7
+    },
+    {
+      "title": "fvd",
+      "group": "gfd",
+      "notes": "gfdgfd",
+      "sessions": [
+        0
+      ],
+      "id": 8
     }
   ],
   "users": [
